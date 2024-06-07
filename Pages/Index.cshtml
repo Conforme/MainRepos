@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1>Upload template</h1>
+    </div>
+    <div class="text-left" align="center">        
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Index">
+            <div>
+                <div class="form-group" align="center">
+                    <fieldset class="col-md-10">
+                        <p>Word template (*.dot, *.dotx):</p>
+                        <p><input type="file" name="navigate" class="form-control" accept=".dot,.dotx" /></p>
+                        <p>
+                            <label for="dtype">Document type:</label>
+                            <select name="dtype" id="dtype">
+                                <option selected value="assess">Assessment</option>
+                                <option value="dplan">Delivery plan</option>                               
+                            </select>
+                        </p>
+                        <p><button class="submit-btn" type="submit">Upload</button></p>
+                    </fieldset>
+                </div>                    
+            </div>
+        </form>       
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Conform&#233;</h1>
+        <p></p>
+        <section class="row" aria-labelledby="gettingStartedTitle" align="center">
+            <p>
+                <a class="btn btn-outline-dark" href="/Identity/Account/Login">Login &raquo;</a> &nbsp;
+                <a class="btn btn-outline-dark" href="/Identity/Account/Register">Register &raquo;</a>
+            </p>
+        </section>
+    </div>
+}
