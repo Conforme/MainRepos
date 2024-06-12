@@ -5,9 +5,9 @@ namespace Conforme.Pages
 {
     public class NavigateModel : PageModel
     {
-        private Word.Application? wordApp;
         public string? SuccessMessage { get; set; }
         public string? FileNamePath { get; set; }
+        public Word.Application? WordApp;
 
         public void OnGet()
         {
@@ -35,6 +35,7 @@ namespace Conforme.Pages
                 return true;
             }
             catch (Exception ex) {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -42,18 +43,20 @@ namespace Conforme.Pages
         public void FileToWord()
         {
             if (GetFileName()) {
+                
                 try
-                {
-                    wordApp = new Word.Application();
-                    wordApp.Visible = false;
-                    wordApp.Documents.Add(FileNamePath);
+                {                    
+                    WordApp = new Word.Application();
+                    WordApp.Visible = false;
+                    //WordApp.Documents.Add(FileNamePath);
+                    Document document = WordApp.Documents.Open(FileNamePath);
                     PrepareNavigation();
                 }
                 finally
                 {
-                    if (wordApp != null)
+                    if (WordApp != null)
                     {
-                        wordApp.Quit();
+                        WordApp.Quit();
                     }
                 }
             }
