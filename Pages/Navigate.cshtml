@@ -4,17 +4,15 @@
     ViewData["Title"] = "Navigate";
 }
 
-<div class="text-center">
-    <h1>@ViewData["Title"]</h1>
-</div>
-
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="text-center">
-        <h3>@Model.SuccessMessage</h3>
+<div class="wrapper side-panel-open">
+    <div class="main">
+        <h2>Template goes here</h2>
+    </div>   
+    <button class="side-panel-toggle" type="button">
+        <span class="material-icons sp-icon-open">Select Fields</span>
+        <span class="material-icons sp-icon-close">Select Fields</span>
+    </button>
+    <div class="side-panel">
+        Fields are here
     </div>
-   
-}
-
-
-
+</div>

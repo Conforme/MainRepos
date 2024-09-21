@@ -29,6 +29,10 @@ body {
     box-sizing: border-box;
 }
 
+.main {
+    flex-grow: 1;
+}
+
 fieldset {
     margin: 70px;
     border: 1px solid silver;
@@ -93,4 +97,53 @@ label[id=lbupfile]:hover {
 
 label[id=lbupfile]:active {
     background-color: #e5e7eb;
+}
+
+.side-panel-toggle{
+    width: 120px;
+    height: 40px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: #aad5ef;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+    .side-panel-toggle:hover {
+        background: #beddf0;
+    }
+
+.sp-icon-close {
+    display: none !important;
+}
+
+.side-panel {
+    display: none;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 20px;
+    color: #ffffff;
+    background: #aad5ef;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+.side-panel-open .side-panel {
+    display: initial;
+}
+
+.side-panel-open .sp-icon-open {
+    display: none !important;
+}
+
+.side-panel-open .sp-icon-close {
+    display: initial !important;
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
 }
