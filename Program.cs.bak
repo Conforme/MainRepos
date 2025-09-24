@@ -6,16 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 
-//namespace conforme;
-
-//public class Program
-//{
-//    public static void Main(string[] args)
-//    { 
-        
-//    }
-//}
-
 // Early init of NLog to allow startup and exception logging, before host is built
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -32,9 +22,7 @@ try
     });
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-    builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<ConformeDbContext>();
+    builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ConformeDbContext>();
     builder.Services.AddControllersWithViews();
 
     builder.WebHost.ConfigureKestrel(options =>
@@ -53,10 +41,6 @@ try
         options.Password.RequireUppercase = true;
         options.Password.RequiredLength = 6;
         options.Password.RequiredUniqueChars = 1;
-
-        // password lockoutEnd setting
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
-        options.Lockout.MaxFailedAccessAttempts = 3;
     });
 
     builder.Services.Configure<DataProtectionTokenProviderOptions>(o =>
@@ -109,43 +93,6 @@ try
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
     app.MapRazorPages();
-
-
-    using (var scope = app.Services.CreateScope())
-    {
-        var roleManager =
-            scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        var roles = new[] { "Client", "Member", "Admin" };
-
-        foreach (var role in roles)
-        {
-            if (!await roleManager.RoleExistsAsync(role))
-                await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
-
-    //using (var scope = app.Services.CreateScope())
-    //{
-    //    var userManager =
-    //        scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-    //    string email = "petergaobro@gmail.com";
-    //    string password = "Test123";
-
-    //    //if not found any related account
-    //    if (await userManager.FindByEmailAsync(email) == null)
-    //    {
-    //        var user = new IdentityUser();
-    //        user.UserName = email;
-    //        user.Email = email;
-
-    //        await userManager.CreateAsync(user, password);
-
-    //        await userManager.AddToRoleAsync(user, "Admin");
-    //    }
-    //}
-
 
     app.Run();
 }
